@@ -4,6 +4,7 @@ import {
   Brain, FileText, Image, Zap, ArrowRight,
   Sparkles
 } from 'lucide-react';
+import logo from '../Images/bedrock.png'; 
 
 // Theme toggle button
 const ThemeToggle: React.FC = () => {
@@ -46,8 +47,8 @@ const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md">
+                <img src={logo} alt="Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 DomainAI
@@ -204,8 +205,8 @@ const LandingPage: React.FC = () => {
       <footer className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md">
+              <img src={logo} alt="Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               DomainAI

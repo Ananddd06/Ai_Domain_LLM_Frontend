@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Brain } from 'lucide-react';
 import Sidebar from './Sidebar';
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
 import { Message, Attachment, Conversation } from '../types';
 import { sendMessage } from '../utils/api';
+import logo from '../Images/bedrock.png'; // ✅ Image import
 
 const ChatInterface: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -130,9 +130,11 @@ const ChatInterface: React.FC = () => {
               </svg>
             </button>
 
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+            {/* ✅ Logo image instead of Brain */}
+            <div className="w-8 h-8 rounded-lg overflow-hidden">
+              <img src={logo} alt="Logo" className="w-full h-full object-contain" />
             </div>
+
             <div>
               <h1 className="text-lg sm:text-xl font-bold text-gray-900">
                 {currentConversation?.title || 'DomainAI Assistant'}
@@ -148,8 +150,9 @@ const ChatInterface: React.FC = () => {
           {currentConversation?.messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center px-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Brain className="w-8 h-8 text-white" />
+                {/* ✅ Logo in welcome */}
+                <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4">
+                  <img src={logo} alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                   Welcome to DomainAI
@@ -169,8 +172,9 @@ const ChatInterface: React.FC = () => {
               {isLoading && (
                 <div className="flex justify-start mb-6">
                   <div className="flex space-x-3 max-w-3xl">
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-white" />
+                    {/* ✅ Logo in loading */}
+                    <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center">
+                      <img src={logo} alt="Logo" className="w-full h-full object-contain" />
                     </div>
                     <div className="bg-gray-100 border border-gray-200 px-4 py-3 rounded-2xl">
                       <div className="flex items-center space-x-2">

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   MessageSquare,
   Plus,
-  User,
   LogOut,
   Settings,
   Trash2,
@@ -131,13 +130,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           <img
             src={user?.imageUrl}
             alt="User profile"
-            className="w-8 h-8 rounded-full object-cover"
+            className="w-9 h-9 rounded-full object-cover"
           />
 
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate">{user?.firstName || 'User'}</div>
-            <div className="text-xs text-gray-400 truncate">
-              {user?.primaryEmailAddress?.emailAddress}
+            <div className="text-sm font-medium truncate">
+              {user?.fullName || 'User'}
             </div>
           </div>
         </div>

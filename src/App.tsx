@@ -8,6 +8,9 @@ import {
 import LandingPage from './components/LandingPage';
 import ChatInterface from './components/ChatInterface';
 
+// In src/App.js or src/index.js
+import 'katex/dist/katex.min.css'; // Don't forget to import the CSS
+
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!clerkPubKey) {

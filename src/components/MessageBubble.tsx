@@ -3,6 +3,7 @@ import { Paperclip } from 'lucide-react';
 import { Message } from '../types';
 import llmLogo from '../Images/bedrock.png'; // <-- your LLM logo
 import { useUser } from '@clerk/clerk-react'; // <-- to get user profile info
+import FormattedMessageContent from './FormatedMessageContent'; // <-- 1. IMPORT THE FORMATTER
 
 interface MessageBubbleProps {
   message: Message;
@@ -32,10 +33,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
               : 'bg-gray-100 text-gray-900 border border-gray-200'
           }`}
         >
-          <div className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap">
-            {message.content}
+          {/* 2. REPLACE THE ORIGINAL CONTENT DIV WITH THIS CONDITIONAL BLOCK */}
+          <div className="text-sm sm:text-base leading-relaxed">
+            {isUser ? (
+              <div className="whitespace-pre-wrap">{message.content}</div>
+            ) : (
+              <FormattedMessageContent content={message.content} />
+            )}
           </div>
-
+          
           {/* Attachments */}
           {message.attachments && message.attachments.length > 0 && (
             <div className="mt-2 sm:mt-3 space-y-2">

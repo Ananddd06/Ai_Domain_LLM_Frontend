@@ -1,6 +1,4 @@
 import React from 'react';
-import { InlineMath, BlockMath } from 'react-katex';
-import 'katex/dist/katex.min.css';
 
 interface FormattedMessageContentProps {
   content: string;
@@ -32,14 +30,6 @@ const headingStyle: React.CSSProperties = {
   fontWeight: 700,
   color: '#1a1a1a',
   fontSize: '1.5em',
-};
-
-const blockMathStyle: React.CSSProperties = {
-  backgroundColor: '#f5f5f5',
-  padding: '1em',
-  borderRadius: '8px',
-  margin: '1em 0',
-  textAlign: 'center',
 };
 
 const tableStyle: React.CSSProperties = {
@@ -87,9 +77,10 @@ const FormattedMessageContent: React.FC<FormattedMessageContentProps> = ({ conte
 
         // Block-level math
         if (part.startsWith('$$') && part.endsWith('$$')) {
+          const mathContent = part.slice(2, -2);
           return (
-            <div key={index} style={blockMathStyle}>
-              <BlockMath math={part.slice(2, -2)} />
+            <div key={index} style={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
+              {`$$\n${mathContent}\n$$`}
             </div>
           );
         }
@@ -101,7 +92,8 @@ const FormattedMessageContent: React.FC<FormattedMessageContentProps> = ({ conte
 
         // Inline math
         if (part.startsWith('$') && part.endsWith('$')) {
-          return <InlineMath key={index} math={part.slice(1, -1)} />;
+          const mathContent = part.slice(1, -1);
+          return <span key={index} style={{ fontFamily: 'monospace' }}>{`$${mathContent}$`}</span>;
         }
 
         // Table row

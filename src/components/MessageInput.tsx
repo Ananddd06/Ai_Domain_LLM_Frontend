@@ -4,7 +4,7 @@ import { Attachment } from '../types';
 import { uploadFile } from '../utils/api';
 
 interface MessageInputProps {
-  onSendMessage: (message: string, attachments: Attachment[]) => void;
+  onSendMessage: (message: string, attachments: Attachment[], model: string) => void;
   isLoading?: boolean;
 }
 
@@ -12,13 +12,14 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading = 
   const [message, setMessage] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [dragOver, setDragOver] = useState(false);
+  const [selectedModel, setSelectedModel] = useState('quen'); // default model = Quen
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() || attachments.length > 0) {
-      onSendMessage(message.trim(), attachments);
+      onSendMessage(message.trim(), attachments, selectedModel);
       setMessage('');
       setAttachments([]);
     }
@@ -26,7 +27,6 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading = 
 
   const handleFileSelect = async (files: FileList) => {
     const newAttachments: Attachment[] = [];
-    
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       try {
@@ -36,7 +36,6 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading = 
         console.error('Failed to upload file:', error);
       }
     }
-    
     setAttachments([...attachments, ...newAttachments]);
   };
 
@@ -62,7 +61,6 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading = 
     setDragOver(false);
   };
 
-  // Auto-resize textarea
   React.useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -72,6 +70,19 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, isLoading = 
 
   return (
     <div className="border-t border-gray-200 bg-white p-3 sm:p-4">
+      {/* Model Selector (separate, above input box) */}
+      <div className="mb-3 flex justify-end">
+        <select
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+          className="border border-gray-300 rounded-lg text-sm px-2 py-1 bg-white"
+          disabled={isLoading}
+        >
+          <option value="quen">Quen</option>
+          <option value="llama">LLaMA</option>
+        </select>
+      </div>
+
       {/* Attachments */}
       {attachments.length > 0 && (
         <div className="mb-3 sm:mb-4 flex flex-wrap gap-2">

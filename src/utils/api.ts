@@ -58,7 +58,7 @@ const readFileAsText = (file: File): Promise<string> => {
 
 // Validate API configuration
 const validateApiConfig = (): string => {
-  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+  const apiKey = import.meta.env.VITE_OPENROUTER_LLAMA_KEY;
   
   if (!apiKey) {
     throw new Error('OpenRouter API key is missing. Please add VITE_OPENROUTER_API_KEY to your .env file.');
@@ -75,7 +75,7 @@ const validateApiConfig = (): string => {
 // Create request payload
 const createRequestPayload = (finalMessage: string) => {
   return {
-    model: 'openai/gpt-oss-20b:free', // Using OpenRouter free model
+    model: 'meta-llama/llama-3.3-70b-instruct:free', // Using OpenRouter free model
     messages: [
       { 
         role: 'system', 

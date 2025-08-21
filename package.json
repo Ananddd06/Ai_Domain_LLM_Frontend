@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^2.0.11",
     "@clerk/clerk-react": "^5.39.0",
     "@clerk/themes": "^2.4.5",
+    "ai": "^5.0.20",
     "katex": "^0.16.22",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",

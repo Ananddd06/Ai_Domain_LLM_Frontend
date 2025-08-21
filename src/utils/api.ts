@@ -59,16 +59,16 @@ const readFileAsText = (file: File): Promise<string> => {
 // Validate API configuration
 const validateApiConfig = (): string => {
   const apiKey = import.meta.env.VITE_OPENROUTER_LLAMA_KEY;
-  
+
   if (!apiKey) {
     throw new Error('OpenRouter API key is missing. Please add VITE_OPENROUTER_API_KEY to your .env file.');
   }
-  
+
   // OpenRouter API keys can have different formats, so we'll be more flexible
   if (!apiKey.startsWith('sk-')) {
     console.warn('API key format may be incorrect. OpenRouter keys typically start with "sk-"');
   }
-  
+
   return apiKey;
 };
 
@@ -77,13 +77,13 @@ const createRequestPayload = (finalMessage: string) => {
   return {
     model: 'meta-llama/llama-3.3-70b-instruct:free', // Using OpenRouter free model
     messages: [
-      { 
-        role: 'system', 
-        content: 'You are a helpful AI assistant specialized in AI/ML and file content analysis. Provide clear, accurate, and helpful responses.' 
+      {
+        role: 'system',
+        content: 'You are a helpful AI assistant specialized in AI/ML and file content analysis. Provide clear, accurate, and helpful responses.'
       },
-      { 
-        role: 'user', 
-        content: finalMessage 
+      {
+        role: 'user',
+        content: finalMessage
       },
     ],
     max_tokens: 2000,
@@ -97,24 +97,24 @@ const createRequestPayload = (finalMessage: string) => {
 // Enhanced error handling
 const handleApiError = (error: any, res?: Response): string => {
   console.error('API Error Details:', error);
-  
+
   if (error instanceof Error) {
     // Network errors
     if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
       return 'Network error: Unable to connect to the API. Please check your internet connection and try again.';
     }
-    
+
     // API key errors
     if (error.message.includes('API key')) {
       return 'API key error: Please check that your OpenRouter API key is correctly configured in your .env file.';
     }
-    
+
     // Other custom errors
     if (error.message.includes('OpenRouter API error')) {
       return error.message;
     }
   }
-  
+
   // HTTP status errors
   if (res) {
     switch (res.status) {
@@ -132,14 +132,14 @@ const handleApiError = (error: any, res?: Response): string => {
         return `API error (${res.status}): ${res.statusText}. Please try again.`;
     }
   }
-  
+
   return 'An unexpected error occurred. Please try again or check the console for more details.';
 };
 
 export const sendMessage = async (message: string, attachments: Attachment[] = []): Promise<Message> => {
   try {
     console.log('🚀 Starting sendMessage...');
-    
+
     // Validate API configuration
     const apiKey = validateApiConfig();
     console.log('✅ API key validated');
@@ -149,12 +149,12 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
     // Process attachments
     if (attachments.length > 0) {
       console.log(`📎 Processing ${attachments.length} attachments...`);
-      
+
       for (const att of attachments) {
         if (att.file instanceof File) {
-          const isTextFile = att.type.startsWith('text/') || 
-                            /\.(json|csv|py|js|ts|md|txt|html|css|xml|yaml|yml)$/i.test(att.name);
-          
+          const isTextFile = att.type.startsWith('text/') ||
+            /\.(json|csv|py|js|ts|md|txt|html|css|xml|yaml|yml)$/i.test(att.name);
+
           if (isTextFile && att.size < 1000000) { // Limit to 1MB for text files
             try {
               const fileText = await readFileAsText(att.file);
@@ -165,7 +165,7 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
               finalMessage += `\n\n[Could not read file: ${att.name}]`;
             }
           } else if (att.size >= 1000000) {
-            finalMessage += `\n\n[File too large: ${att.name} (${Math.round(att.size/1024/1024*100)/100}MB) - Please use smaller files]`;
+            finalMessage += `\n\n[File too large: ${att.name} (${Math.round(att.size / 1024 / 1024 * 100) / 100}MB) - Please use smaller files]`;
           } else {
             finalMessage += `\n\n[Attached file: ${att.name} (${att.type}) - Binary file not processed]`;
           }
@@ -187,7 +187,7 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
     console.log('🌐 Sending request to OpenRouter API...');
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for free model
-    
+
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -199,7 +199,7 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
       body: JSON.stringify(requestPayload),
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
 
     console.log(`📡 Response received: ${res.status} ${res.statusText}`);
@@ -213,7 +213,7 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
       } catch (e) {
         console.error('❌ Could not read error response:', e);
       }
-      
+
       throw new Error(`OpenRouter API error: ${res.status} ${res.statusText}${errorText ? ` - ${errorText}` : ''}`);
     }
 
@@ -254,9 +254,9 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
 
   } catch (error) {
     console.error('❌ sendMessage error:', error);
-    
+
     const errorMessage = handleApiError(error);
-    
+
     return {
       id: Date.now().toString(),
       content: `❌ ${errorMessage}`,
@@ -268,17 +268,17 @@ export const sendMessage = async (message: string, attachments: Attachment[] = [
 
 export const uploadFile = async (file: File): Promise<Attachment> => {
   try {
-    console.log('📤 Uploading file:', file.name, `(${Math.round(file.size/1024*100)/100}KB)`);
-    
+    console.log('📤 Uploading file:', file.name, `(${Math.round(file.size / 1024 * 100) / 100}KB)`);
+
     // Validate file size (10MB limit)
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
-      throw new Error(`File too large: ${Math.round(file.size/1024/1024*100)/100}MB. Maximum size is 10MB.`);
+      throw new Error(`File too large: ${Math.round(file.size / 1024 / 1024 * 100) / 100}MB. Maximum size is 10MB.`);
     }
-    
+
     // Simulate upload delay
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     const attachment: Attachment = {
       id: Date.now().toString(),
       name: file.name,
@@ -287,10 +287,10 @@ export const uploadFile = async (file: File): Promise<Attachment> => {
       url: URL.createObjectURL(file),
       file, // Keep original file so we can read its content later
     };
-    
+
     console.log('✅ File uploaded successfully:', attachment.name);
     return attachment;
-    
+
   } catch (error) {
     console.error('❌ Upload error:', error);
     throw error;
@@ -301,13 +301,13 @@ export const uploadFile = async (file: File): Promise<Attachment> => {
 export const testApiConnection = async (): Promise<{ success: boolean; message: string }> => {
   try {
     const apiKey = validateApiConfig();
-    
+
     const res = await fetch('https://openrouter.ai/api/v1/models', {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
       },
     });
-    
+
     if (res.ok) {
       return { success: true, message: 'API connection successful!' };
     } else {
@@ -320,13 +320,13 @@ export const testApiConnection = async (): Promise<{ success: boolean; message: 
 
 // Streaming version of sendMessage
 export const sendMessageStream = async (
-  message: string, 
+  message: string,
   attachments: Attachment[] = [],
   onChunk: (chunk: string) => void
 ): Promise<Message> => {
   try {
     console.log('🚀 Starting streaming message...');
-    
+
     const apiKey = validateApiConfig();
     let finalMessage = message;
 
@@ -334,9 +334,9 @@ export const sendMessageStream = async (
     if (attachments.length > 0) {
       for (const att of attachments) {
         if (att.file instanceof File) {
-          const isTextFile = att.type.startsWith('text/') || 
-                            /\.(json|csv|py|js|ts|md|txt|html|css|xml|yaml|yml)$/i.test(att.name);
-          
+          const isTextFile = att.type.startsWith('text/') ||
+            /\.(json|csv|py|js|ts|md|txt|html|css|xml|yaml|yml)$/i.test(att.name);
+
           if (isTextFile && att.size < 1000000) {
             try {
               const fileText = await readFileAsText(att.file);
@@ -417,7 +417,7 @@ export const sendMessageStream = async (
   } catch (error) {
     console.error('❌ Streaming error:', error);
     const errorMessage = handleApiError(error);
-    
+
     return {
       id: Date.now().toString(),
       content: `❌ ${errorMessage}`,

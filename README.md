@@ -15,7 +15,7 @@ _The first impression of the application and the secure login screen._
 
 <p align="center">
   <img src="src/Images/front.png" alt="Front Page" width="400">
-  <img src="src/Images/login.png" alt="Login Screen" width="400">
+  <img src="src/Images/loginpage.png.png" alt="Login Screen" width="400">
 </p>
 
 ### Chat Interface

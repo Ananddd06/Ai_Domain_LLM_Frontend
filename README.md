@@ -5,16 +5,43 @@
 
 An open-source, beautifully designed chat interface for interacting with Large Language Models (LLMs). This project provides a clean, elegant, and responsive frontend, similar to ChatGPT, allowing you to build your own conversational AI applications with ease.
 
-![App Screenshot](https://via.placeholder.com/800x450.png?text=Your+App+Screenshot+Here)
-_Replace this with a screenshot or GIF of your application!_
+## 📸 Screenshots
+
+Here's a glimpse of the application in action, from the front page to an active conversation.
+
+### Front Page & Login
+
+_The first impression of the application and the secure login screen._
+
+<p align="center">
+  <img src="src/images/front.png" alt="Front Page" width="400">
+  <img src="src/images/login.png" alt="Login Screen" width="400">
+</p>
+
+### Chat Interface
+
+_A clean, elegant, and responsive UI for interacting with the AI._
+
+<p align="center">
+  <img src="src/images/chatinterface.png" alt="Chat Interface" width="800">
+</p>
+
+### Real-time Interaction
+
+_The interface clearly indicates when the AI is thinking and then streams the response back to the user._
+
+<p align="center">
+  <img src="src/images/chatthinking.png" alt="AI Thinking" width="400">
+  <img src="src/images/reply.png" alt="AI Reply" width="400">
+</p>
 
 ---
 
 ## ✨ Features
 
 - **Elegant & Responsive UI**: A thoughtfully designed interface that looks great on all devices, from desktops to mobile phones.
-- **Real-time Streaming**: Watch the AI's response generate in real-time for a dynamic and engaging user experience, powered by the Vercel AI SDK.
-- **Backend Agnostic**: Easily connect to any LLM backend (like OpenAI, Llama, Deepseek, etc.) that is compatible with the Vercel AI SDK.
+- **Real-time Streaming**: Watch the AI's response generate in real-time for a dynamic and engaging user experience.
+- **Connects to OpenRouter**: Easily connect to hundreds of LLMs (including free ones) through the [OpenRouter.ai](https://openrouter.ai/) API.
 - **Open Source & Customizable**: The code is yours to explore, modify, and tailor to your specific needs.
 - **Modern Tech Stack**: Built with the latest web technologies for a powerful and maintainable codebase.
 
@@ -23,7 +50,6 @@ _Replace this with a screenshot or GIF of your application!_
 This project is built with a modern, robust tech stack:
 
 - **[React](https://reactjs.org/)**: A JavaScript library for building user interfaces.
-- **[Vercel AI SDK](https://ai-sdk.dev/)**: For managing AI state, streaming responses, and connecting to various model providers.
 - **[TypeScript](https://www.typescriptlang.org/)**: For strong typing, better developer experience, and fewer bugs.
 - **HTML5 & CSS3**: For structure and beautiful styling.
 
@@ -57,11 +83,15 @@ Make sure you have the following installed on your machine:
 
 3.  **Set up environment variables:**
 
-    Create a `.env.local` file in the root of your project and add the necessary API keys for your chosen LLM provider. For example, for OpenAI:
+    This project is configured to use OpenRouter.ai, which gives you access to a wide variety of models, including many free ones.
+
+    1.  Go to OpenRouter.ai and create a free account.
+    2.  On the Keys page, create a new key.
+    3.  Create a `.env.local` file in the root of your project and add your key:
 
     ```env
     # .env.local
-    OPENAI_API_KEY="your_openai_api_key_here"
+    VITE_OPENROUTER_LLAMA_KEY="your-openrouter-api-key-here"
     ```
 
 4.  **Run the development server:**

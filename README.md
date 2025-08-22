@@ -14,8 +14,8 @@ Here's a glimpse of the application in action, from the front page to an active 
 _The first impression of the application and the secure login screen._
 
 <p align="center">
-  <img src="src/images/front.png" alt="Front Page" width="400">
-  <img src="src/images/login.png" alt="Login Screen" width="400">
+  <img src="src/Images/front.png" alt="Front Page" width="400">
+  <img src="src/Images/login.png" alt="Login Screen" width="400">
 </p>
 
 ### Chat Interface
@@ -23,7 +23,7 @@ _The first impression of the application and the secure login screen._
 _A clean, elegant, and responsive UI for interacting with the AI._
 
 <p align="center">
-  <img src="src/images/chatinterface.png" alt="Chat Interface" width="800">
+  <img src="src/Images/chatinterface.png" alt="Chat Interface" width="800">
 </p>
 
 ### Real-time Interaction
@@ -31,8 +31,8 @@ _A clean, elegant, and responsive UI for interacting with the AI._
 _The interface clearly indicates when the AI is thinking and then streams the response back to the user._
 
 <p align="center">
-  <img src="src/images/chatthinking.png" alt="AI Thinking" width="400">
-  <img src="src/images/reply.png" alt="AI Reply" width="400">
+  <img src="src/Images/chatthinking.png" alt="AI Thinking" width="400">
+  <img src="src/Images/reply.png" alt="AI Reply" width="400">
 </p>
 
 ---
